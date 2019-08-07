@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{5749E8F1-CAB2-4C61-AC4C-C868CAE8D961}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument=".template.config/template.json">
+    <Files>
+      <File FileName=".template.config/template.json" Line="24" Column="27" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Template" expanded="True">
+            <Node name=".template.config" expanded="True">
+              <Node name="/Users/kashif/Projects/GitHub/template/.template.config/template.json" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Template.Api PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

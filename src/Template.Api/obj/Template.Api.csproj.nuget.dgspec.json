@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/kashif/Projects/GitHub/template/src/Template.Api/Template.Api.csproj": {}
+  },
+  "projects": {
+    "/Users/kashif/Projects/GitHub/template/src/Template.Api/Template.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/kashif/Projects/GitHub/template/src/Template.Api/Template.Api.csproj",
+        "projectName": "Template.Api",
+        "projectPath": "/Users/kashif/Projects/GitHub/template/src/Template.Api/Template.Api.csproj",
+        "packagesPath": "/Users/kashif/.nuget/packages/",
+        "outputPath": "/Users/kashif/Projects/GitHub/template/src/Template.Api/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/kashif/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "/Users/kashif/Projects/GitHub/template/src/Template.Domain/Template.Domain.csproj": {
+                "projectPath": "/Users/kashif/Projects/GitHub/template/src/Template.Domain/Template.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "/Users/kashif/Projects/GitHub/template/src/Template.Domain/Template.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/kashif/Projects/GitHub/template/src/Template.Domain/Template.Domain.csproj",
+        "projectName": "Template.Domain",
+        "projectPath": "/Users/kashif/Projects/GitHub/template/src/Template.Domain/Template.Domain.csproj",
+        "packagesPath": "/Users/kashif/.nuget/packages/",
+        "outputPath": "/Users/kashif/Projects/GitHub/template/src/Template.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/kashif/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

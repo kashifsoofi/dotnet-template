@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Template.Api.Tests.Unit
+namespace Template.WebApi.Tests.Unit
 {
     public class UnitTest1
     {

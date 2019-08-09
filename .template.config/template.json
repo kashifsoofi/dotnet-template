@@ -10,16 +10,14 @@
         "language": "C#",
         "type": "project"
     },
-    "primaryOutputs": [
-        {
-            "path": "src/Template.Domain/Template.Domain.csproj"
-        },
-        {
-            "path": "src/Template.Api/Template.Api.csproj"
-        },
-        {
-            "path": "test/Template.Api.Tests.Unit/Template.Api.Tests.Unit.csproj"
+    "exclude": [ ".vs/**/*", "**/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json" ],
+    "symbols": {
+        "name": {
+            "type": "parameter",
+            "datatype": "string",
+            "required": true,
+            "replaces": "Template",
+            "fileRename": "Template"
         }
-    ],
-    "exclude": [ ".vs/**/* **/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json" ]
+    }
 }

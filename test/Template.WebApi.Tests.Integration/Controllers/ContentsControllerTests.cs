@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 
-namespace Template.WebApi.Tests.Unit
+namespace Template.WebApi.Tests.Acceptance
 {
-    public class UnitTest1
+    public class ContentsControllerTests
     {
         [Fact]
         public void Test1()

@@ -16,7 +16,7 @@ namespace Template.WebApi.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void Get_Should_return_ok_with_content()
+        public void Get_should_return_ok_with_content()
         {
             var result = _sut.Get(1);
 

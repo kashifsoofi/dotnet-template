@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
 WORKDIR /build
 
 # copy csproj and restore as distinct layers
-COPY *.sln .
+COPY *.sln *.dcproj ./
 
 # Copy the main source project files
 COPY src/*/*.csproj ./
@@ -13,16 +13,16 @@ COPY test/*/*.csproj ./
 RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
 
 # Restore to cache the layers
-RUN dotnet restore
+RUN dotnet restore Template.sln
 
 # Copy all the source code and build
 COPY ./src ./src
 COPY ./test ./test
 
-RUN dotnet build -c Release --no-restore
+RUN dotnet build Template.sln -c Release --no-restore
 
 # Run dotnet test on the solution
-RUN dotnet test --filter Category!=AcceptanceTests
+RUN dotnet test Template.sln --filter Category!=AcceptanceTests
 
 FROM build AS publish
 RUN dotnet publish "./src/Template.WebApi/Template.WebApi.csproj" -c Release -o /app --no-restore

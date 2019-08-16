@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Template.WebApi.Tests.Integration
 {
+    [Trait("Category", "IntegrationTest")]
     public class ContentsControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private WebApplicationFactory<Startup> _factory;

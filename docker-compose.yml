@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  template.webapi:
+    image: ${DOCKER_REGISTRY-}template
+    build:
+      context: .
+      dockerfile: src/Template.WebApi/Dockerfile

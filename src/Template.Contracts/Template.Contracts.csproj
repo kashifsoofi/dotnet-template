@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsPackable>true</IsPackable>
-    <PackageId>Template.Domain</PackageId>
+    <PackageId>Template.Contracts</PackageId>
     <Authors>Kashif Soofi</Authors>
-    <Description>Template Domain</Description>
+    <Description>Template Contracts</Description>
     <Version>$(Version)</Version>
   </PropertyGroup>
 

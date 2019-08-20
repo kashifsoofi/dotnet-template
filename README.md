@@ -15,6 +15,14 @@ This is `dotnet new` template for a ASP.NET Core Web API service.
 2. run docker image to run migrations on MySql server exposed on localhost
 `docker run webapi-service:db -cs "Server=host.docker.internal; Database=webapiservice; Uid=<uid>; Pwd=<pwd>;"`
 
+## Publish nuget packages from docker
+1. build docker image `docker build --build-arg Version=0.1.0 -t template.publisher . -f Dockerfile.Publisher`
+2. run docker image to publish nuget packages
+`docker run -t -v ~/myfeed:/myfeed template.publisher:latest --source /myfeed`
+Or with key
+`docker run -t -v ~/myfeed:/myfeed template.publisher:latest --source /myfeed -k <apiKey>`
+
+
 ## References & Resources
 * https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new?tabs=netcore22
 * https://github.com/dotnet/dotnet-template-samples

@@ -9,24 +9,13 @@ services:
       MYSQL_USER: integration_user
       MYSQL_PASSWORD: integration_user_password
 
-#  template.db.integration.detector:
-#    depends_on:
-#      - template.db.integration
-#    image: template.db.integration.detector
-#    build:
-#      context: ./db
-#      dockerfile: Dockerfile.Detector
-#    command: "server=template.db.integration;database=template.db.integration;uid=root;password=root_password;"
-
   template.db.integration.migrations:
     depends_on:
       - template.db.integration
     image: template.db.integration.migrations
-    environment:
-      CONNECTION_STRING: "server=template.db.integration;database=template.db.integration;uid=root;password=root_password;"
     build:
-      context: .
-      dockerfile: db/Dockerfile
+      context: ./db/
+      dockerfile: Dockerfile
     command: -cs "server=template.db.integration;database=template.db.integration;uid=root;password=root_password;"
 
 #  template.webapi:

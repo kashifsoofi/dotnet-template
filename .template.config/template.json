@@ -18,6 +18,28 @@
             "required": true,
             "replaces": "Template",
             "fileRename": "Template"
-        }
-    }
+        },
+        "includeMessageProcessor": {
+            "type": "parameter",
+            "datatype": "bool",
+            "defaultValue": "false"
+        },
+        "includeDb": {
+            "type": "parameter",
+            "datatype": "bool",
+            "defaultValue": "false"
+        },
+    },
+    "sources": [{
+        "modifiers": [
+            {
+                "condition": "(!includeMessageProcessor)",
+                "exclude": [ "src/Template.MessageProcessor/**/*" ]
+            },
+            {
+                "condition": "(!includeDb)",
+                "exclude": [ "db/**/*" ]
+            }
+        ]
+    }]
 }

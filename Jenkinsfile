@@ -22,7 +22,7 @@ node {
 }
 
 def buildAndPushImages(parameters) {
-    def registry = "http://my-registry:5000" 
+    def registry = "my-registry:5000"
     echo "Building ${parameters.projectName}"
 
     def TemplateCoreApi = docker.build("${registry}/template-core-api:${BUILD_NUMBER}", "-f ./src/Template.WebApi/Dockerfile .")
@@ -34,7 +34,7 @@ def buildAndPushImages(parameters) {
 }
 
 def publishPackages() {
-    def registry = "http://my-registry:5000" 
+    def registry = "my-registry:5000"
     def imageName = "${registry}/template-package-publisher:${BUILD_NUMBER}"
     def packagePublisher = docker.build(imageName, "-f ./Dockerfile.Publisher .")
     docker.run(imageName, "-s /usr/share/packages")

@@ -25,8 +25,8 @@ def buildAndPushImages(parameters) {
     def registry = "host.docker.local:5000" 
     echo "Building ${parameters.projectName}"
 
-    def TemplateCoreApi = docker.build("${registry}/template-core-api:${BUILD_NUMBER}", "-f ./src/Tandem.Context.Template.Api/Dockerfile .")
-    def TemplateCoreEndpoint = docker.build("${registry}/template-core-endpoint:${BUILD_NUMBER}", "-f ./src/Tandem.Context.Template.Endpoint/Dockerfile .")
+    def TemplateCoreApi = docker.build("${registry}/template-core-api:${BUILD_NUMBER}", "-f ./src/Template.WebApi/Dockerfile .")
+    def TemplateCoreEndpoint = docker.build("${registry}/template-core-endpoint:${BUILD_NUMBER}", "-f ./src/Template.MessageProcessor/Dockerfile .")
 
     echo "Push image to registry"
     TemplateCoreApi.push()

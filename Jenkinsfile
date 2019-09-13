@@ -15,9 +15,7 @@ node {
 
     stage('Publish packages') {
         echo 'Publishing packages'
-        dir('content') {
         publishPackages()
-        }
     }
 }
 

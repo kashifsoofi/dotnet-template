@@ -34,6 +34,6 @@ def buildAndPushImages(parameters) {
 def publishPackages() {
     def registry = "my-registry:5000"
     def imageName = "${registry}/template-package-publisher:${BUILD_NUMBER}"
-    def packagePublisher = docker.build(imageName, "-f ./Dockerfile.Publisher .")
+    def packagePublisher = docker.build(imageName, "--build-arg Version=0.1.0 -f ./Dockerfile.Publisher .")
     docker.run(imageName, "-s /usr/share/packages")
 }

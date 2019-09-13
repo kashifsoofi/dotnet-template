@@ -29,8 +29,8 @@ def buildAndPushImages(parameters) {
     def TemplateCoreEndpoint = docker.build("${registry}/template-core-endpoint:${BUILD_NUMBER}", "-f ./src/Template.MessageProcessor/Dockerfile .")
 
     echo "Push image to registry"
-    TemplateCoreApi.push()
-    TemplateCoreEndpoint.push()
+    // TemplateCoreApi.push()
+    // TemplateCoreEndpoint.push()
 }
 
 def publishPackages() {

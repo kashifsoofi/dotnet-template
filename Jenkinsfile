@@ -36,5 +36,5 @@ def publishPackages() {
     def imageName = "${registry}/template-package-publisher:${BUILD_NUMBER}"
     def packagePublisher = docker.build(imageName, "--build-arg Version=0.1.0 -f ./Dockerfile.Publisher .")
 	packagePublisher.run("--rm -v /usr/share/packages:/packages", "--source /packages")
-	packagePublisher.rmi("-f");
+	packagePublisher.rm("-f");
 }

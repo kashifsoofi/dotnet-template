@@ -37,4 +37,9 @@ def publishPackages() {
     def packagePublisher = docker.build(imageName, "--build-arg Version=0.1.0 -f ./Dockerfile.Publisher .")
 	packagePublisher.run("--rm -v /usr/share/packages:/packages", "--source /packages")
 	packagePublisher.rm("-f");
+
+	echo "Removing publisher image"
+	docker.node {
+		docker.script.sh "docker rmi ${imageName} -f"
+	}
 }

@@ -35,5 +35,5 @@ def publishPackages() {
     def registry = "my-registry:50001"
     def imageName = "${registry}/template-package-publisher:${BUILD_NUMBER}"
     def packagePublisher = docker.build(imageName, "--build-arg Version=0.1.0 -f ./Dockerfile.Publisher .")
-	packagePublisher.run("-v /usr/share/packages:/usr/share/packages --source /usr/share/packages")
+	packagePublisher.run("-v /usr/share/packages:/usr/share/packages", "--source /usr/share/packages")
 }

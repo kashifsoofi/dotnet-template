@@ -35,5 +35,6 @@ def publishPackages() {
     def registry = "my-registry:50001"
     def imageName = "${registry}/template-package-publisher:${BUILD_NUMBER}"
     def packagePublisher = docker.build(imageName, "--build-arg Version=0.1.0 -f ./Dockerfile.Publisher .")
-	packagePublisher.run("--rm --mount type=bind,source=c:/Dev/packages,target=/packages", "--source /packages")
+	packagePublisher.run("--rm --mount type=bind,source=/usr/share/packages,target=/packages", "--source /packages")
+	packagePublisher.rmi("-f");
 }

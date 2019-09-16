@@ -27,13 +27,13 @@ def buildAndPushImages(parameters) {
     def TemplateCoreEndpoint = docker.build("${registry}/template-core-endpoint:${BUILD_NUMBER}", "-f ./src/Template.MessageProcessor/Dockerfile .")
 
     echo "Push image to registry"
-    // TemplateCoreApi.push()
-    // TemplateCoreEndpoint.push()
+    TemplateCoreApi.push()
+    TemplateCoreEndpoint.push()
 }
 
 def publishPackages() {
     def registry = "my-registry:50001"
     def imageName = "${registry}/template-package-publisher:${BUILD_NUMBER}"
     def packagePublisher = docker.build(imageName, "--build-arg Version=0.1.0 -f ./Dockerfile.Publisher .")
-	packagePublisher.run("-v /usr/share/packages:/usr/share/packages", "--source /usr/share/packages")
+	packagePublisher.run("--mount type=bind,source=c:/Dev/packages,target:/packages", "--source /packages")
 }

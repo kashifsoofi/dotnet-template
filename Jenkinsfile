@@ -39,7 +39,5 @@ def publishPackages() {
 	packagePublisher.rm("-f");
 
 	echo "Removing publisher image"
-	docker.node {
-		docker.script.sh "docker rmi ${imageName} -f"
-	}
+	steps.sh(script: "docker rmi ${imageName} -f")
 }

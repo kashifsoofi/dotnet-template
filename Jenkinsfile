@@ -1,7 +1,6 @@
 import groovy.json.JsonOutput
 import java.lang.String;
 
-@Fields
 def CURRENT_VERSION = ""
 
 node {

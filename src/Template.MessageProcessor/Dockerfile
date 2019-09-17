@@ -22,7 +22,7 @@ COPY ./test ./test
 RUN dotnet build Template.sln -c Release --no-restore
 
 # Run dotnet test on the solution
-RUN dotnet test Template.sln --filter Category!=AcceptanceTests
+RUN dotnet test Template.sln -c Release --no-build --no-restore --verbosity=normal --filter Category!=AcceptanceTests
 
 FROM build AS publish
 RUN dotnet publish "./src/Template.MessageProcessor/Template.MessageProcessor.csproj" -c Release -o /app --no-restore

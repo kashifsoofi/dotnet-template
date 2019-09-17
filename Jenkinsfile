@@ -25,7 +25,7 @@ node {
 def setVersionNumber() {
 	def majorMinor = "1.0"
 	if (fileExists('version.txt')) {
-		majorMinor = new File('version.txt').text.trim()
+		majorMinor = readFile('version.txt').text.trim()
 	}
 
 	CURRENT_VERSION = "${majorMinor}.${BUILD_NUMBER}"

@@ -1,5 +1,4 @@
 import groovy.json.JsonOutput
-import java.lang.String;
 
 def CURRENT_VERSION = ""
 
@@ -26,7 +25,7 @@ node {
 def setVersionNumber() {
 	def majorMinor = "1.0"
 	if (fileExists('version.txt')) {
-		majorMinor = readFile('version.txt').text.trim()
+		majorMinor = readFile('version.txt').trim()
 	}
 
 	CURRENT_VERSION = "${majorMinor}.${BUILD_NUMBER}"

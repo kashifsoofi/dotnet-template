@@ -24,7 +24,7 @@ namespace Template.WebApi.Tests.Unit.Controllers
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var content = okResult.Value.Should().BeAssignableTo<Content>().Subject;
 
-            content.Value.Should().Be("value");
+            content.Value.Should().Be("value1");
         }
     }
 }

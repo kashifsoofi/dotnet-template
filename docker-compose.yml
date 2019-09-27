@@ -6,3 +6,9 @@ services:
     build:
       context: .
       dockerfile: src/Template.WebApi/Dockerfile
+
+  template.messageprocessor:
+    image: ${DOCKER_REGISTRY-}messageprocessor
+    build:
+      context: .
+      dockerfile: src/Template.MessageProcessor/Dockerfile

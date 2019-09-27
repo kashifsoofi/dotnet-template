@@ -32,7 +32,7 @@ namespace Template.WebApi.Tests.Integration
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<Content>(responseContent);
-            content.Value.Should().Be("value");
+            content.Value.Should().Be("value1");
         }
     }
 }

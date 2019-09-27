@@ -12,13 +12,17 @@ node {
     stage('Build & Test') {
         echo 'Building and testing'
         gitInfo = checkout scm
-		setVersionNumber()
-        buildAndPushImages(commonParameters)
+        setVersionNumber()
+
+        runTests()
+        publishTestResults()
+
+        // buildAndPushImages(commonParameters)
     }
 
     stage('Publish packages') {
         echo 'Publishing packages'
-        publishPackages()
+        // publishPackages()
     }
 }
 
@@ -29,6 +33,15 @@ def setVersionNumber() {
 	}
 
 	CURRENT_VERSION = "${majorMinor}.${BUILD_NUMBER}"
+}
+
+def runTests() {
+    sh "docker-compose -f docker-compose.testrunner.yml up --force-recreate --abort-on-container-exit"
+    sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
+}
+
+def publishTestResults() {
+    step([$class: 'MSTestPublisher', failOnError: false, testResultsFile: './testresults/*.trx'])
 }
 
 def buildAndPushImages(parameters) {

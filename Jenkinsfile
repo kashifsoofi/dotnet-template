@@ -41,7 +41,7 @@ def runTests() {
 }
 
 def publishTestResults() {
-    step([$class: 'MSTestPublisher', failOnError: false, testResultsFile: './testresults/*.trx'])
+    mstest testResultsFile:"./testresults/*.trx", keepLongStdio: true
 }
 
 def buildAndPushImages(parameters) {

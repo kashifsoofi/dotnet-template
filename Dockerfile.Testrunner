@@ -19,6 +19,6 @@ RUN dotnet restore Template.sln
 COPY ./src ./src
 COPY ./test ./test
 
-RUN dotnet build Template.sln /p:Version=$Version -c Release --no-restore
+RUN dotnet build Template.sln -c Release --no-restore
 
 ENTRYPOINT ["dotnet", "test", "Template.sln", "-c=Release", "--no-restore", "--no-build", "--logger:trx", "--results-directory=./testresults"]

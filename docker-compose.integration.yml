@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  template.db.integration:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: template.db.integration
+      MYSQL_USER: integration_user
+      MYSQL_PASSWORD: integration_user_password
+
+  template.db.integration.migrations:
+    depends_on:
+      - template.db.integration
+    image: template.db.integration.migrations
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+    command: -cs "server=template.db.integration;database=template.db.integration;uid=root;password=root_password;"
+
+#  template.webapi:
+#    image: ${DOCKER_REGISTRY-}template
+#    build:
+#      context: .
+#      dockerfile: src/Template.WebApi/Dockerfile

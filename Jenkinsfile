@@ -37,7 +37,7 @@ def setVersionNumber() {
 
 def runTests() {
     sh "docker-compose -f docker-compose.testrunner.yml up --force-recreate --abort-on-container-exit"
-    // sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
+    sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
 }
 
 def publishTestResults() {

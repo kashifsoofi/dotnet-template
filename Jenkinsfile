@@ -45,7 +45,7 @@ def setVersionNumber() {
 
 def runTests() {
     docker.image('tiangolo/docker-with-compose') { c ->
-        sh "docker-compose -f docker-compose.testrunner.yml run --force-recreate --abort-on-container-exit"
+        sh "docker-compose -f docker-compose.testrunner.yml run testrunner"
     }
 }
 

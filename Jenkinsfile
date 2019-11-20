@@ -58,7 +58,7 @@ def cleanupTests() {
 }
 
 def publishTestResults() {
-    mstest testResultsFile:"./testresults/*.trx", keepLongStdio: true
+    // mstest testResultsFile:"./testresults/*.trx", keepLongStdio: true
 }
 
 def buildAndPushImages(parameters) {

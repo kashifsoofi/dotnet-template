@@ -14,8 +14,16 @@ node {
         gitInfo = checkout scm
         setVersionNumber()
 
-        runTests()
-        publishTestResults()
+        try {
+            runTests()
+        }
+        catch (runTestsException) {
+            cleanupTests();
+            throw runTestsException
+        }
+        finally {
+            publishTestResults()
+        }
 
         // buildAndPushImages(commonParameters)
     }
@@ -36,12 +44,21 @@ def setVersionNumber() {
 }
 
 def runTests() {
-    sh "docker-compose -f docker-compose.testrunner.yml up --force-recreate --abort-on-container-exit"
-    sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
+    echo "Running tests"
+    docker.image('tiangolo/docker-with-compose').inside {
+        sh "docker-compose -f docker-compose.testrunner.yml run testrunner"
+    }
+}
+
+def cleanupTests() {
+    echo "Cleaning up tests"
+    docker.image('tiangolo/docker-with-compose').inside {
+        sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
+    }
 }
 
 def publishTestResults() {
-    mstest testResultsFile:"./testresults/*.trx", keepLongStdio: true
+    // mstest testResultsFile:"./testresults/*.trx", keepLongStdio: true
 }
 
 def buildAndPushImages(parameters) {

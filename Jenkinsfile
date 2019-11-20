@@ -14,8 +14,16 @@ node {
         gitInfo = checkout scm
         setVersionNumber()
 
-        runTests()
-        publishTestResults()
+        try {
+            runTests()
+        }
+        catch (runTestsException) {
+            cleanupTests();
+            throw runTestsException
+        }
+        finally {
+            publishTestResults()
+        }
 
         // buildAndPushImages(commonParameters)
     }
@@ -36,8 +44,15 @@ def setVersionNumber() {
 }
 
 def runTests() {
-    sh "docker-compose -f docker-compose.testrunner.yml up --force-recreate --abort-on-container-exit"
-    sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
+    docker.image('tiangolo/docker-with-compose') { c ->
+        sh "docker-compose -f docker-compose.testrunner.yml run --force-recreate --abort-on-container-exit"
+    }
+}
+
+def cleanupTests() {
+    docker.image('tiangolo/docker-with-compose') { c ->
+        sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
+    }
 }
 
 def publishTestResults() {

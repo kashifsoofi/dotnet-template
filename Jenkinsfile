@@ -44,12 +44,14 @@ def setVersionNumber() {
 }
 
 def runTests() {
+    echo "Running tests"
     docker.image('tiangolo/docker-with-compose') { c ->
         sh "docker-compose -f docker-compose.testrunner.yml run testrunner"
     }
 }
 
 def cleanupTests() {
+    echo "Cleaning up tests"
     docker.image('tiangolo/docker-with-compose') { c ->
         sh "docker-compose -f docker-compose.testrunner.yml down --rmi local -v --remove-orphans"
     }

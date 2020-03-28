@@ -19,7 +19,15 @@
             "replaces": "Template",
             "fileRename": "Template"
         },
-        "includeMessageProcessor": {
+        "aggregateName": {
+            "type": "parameter",
+            "datatype": "string",
+            "isRequired": true,
+            "replaces": "AggregateName",
+            "fileRename": "AggregateName",
+            "defaultValue": "Example"
+        },
+        "includeHost": {
             "type": "parameter",
             "datatype": "bool",
             "defaultValue": "false"
@@ -33,8 +41,8 @@
     "sources": [{
         "modifiers": [
             {
-                "condition": "(!includeMessageProcessor)",
-                "exclude": [ "src/Template.MessageProcessor/**/*" ]
+                "condition": "(!includeHost)",
+                "exclude": [ "src/Template.Host/**/*" ]
             },
             {
                 "condition": "(!includeDb)",

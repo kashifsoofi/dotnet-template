@@ -4,7 +4,7 @@ using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-namespace MessageProcessor
+namespace Template.Host
 {
     class Program
     {

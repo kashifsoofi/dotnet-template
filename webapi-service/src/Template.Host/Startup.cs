@@ -2,7 +2,7 @@
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MessageProcessor
+namespace Template.Host
 {
     public class Startup
     {

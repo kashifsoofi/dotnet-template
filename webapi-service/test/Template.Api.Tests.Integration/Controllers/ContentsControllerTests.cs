@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Template.Domain.Responses;
 using Xunit;
 
-namespace Template.WebApi.Tests.Integration
+namespace Template.Api.Tests.Integration
 {
     public class ContentsControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {

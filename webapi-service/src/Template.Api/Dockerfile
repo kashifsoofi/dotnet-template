@@ -9,18 +9,18 @@ COPY src/*/*.csproj ./
 RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 
 # Restore to cache the layers
-RUN dotnet restore ./src/Template.WebApi/Template.WebApi.csproj
+RUN dotnet restore ./src/Template.Api/Template.Api.csproj
 
 # Copy all the source code and build
 COPY ./src ./src
 
-RUN dotnet build ./src/Template.WebApi/Template.WebApi.csproj -c Release --no-restore
+RUN dotnet build ./src/Template.Api/Template.Api.csproj -c Release --no-restore
 
 FROM build AS publish
-RUN dotnet publish ./src/Template.WebApi/Template.WebApi.csproj -c Release -o /app --no-restore --no-build
+RUN dotnet publish ./src/Template.Api/Template.Api.csproj -c Release -o /app --no-restore --no-build
 
 # App image
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine AS runtime
 WORKDIR /app
 COPY --from=publish /app ./
-ENTRYPOINT ["dotnet", "Template.WebApi.dll"]
+ENTRYPOINT ["dotnet", "Template.Api.dll"]

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Template.Domain.Responses;
 
-namespace Template.WebApi.Controllers
+namespace Template.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -11,7 +11,7 @@ namespace Template.WebApi.Controllers
     {
         // GET api/contents
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             var contents = new List<Content>
             {
@@ -31,21 +31,21 @@ namespace Template.WebApi.Controllers
 
         // POST api/contents
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Content request)
+        public IActionResult Post([FromBody] Content request)
         {
             return CreatedAtAction("Get", new { id = request.Id }, request);
         }
 
         // PUT api/contents/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] string value)
         {
             return NoContent();
         }
 
         // DELETE api/contents/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             return NoContent();
         }

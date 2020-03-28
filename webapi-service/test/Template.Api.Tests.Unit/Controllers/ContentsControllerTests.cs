@@ -1,10 +1,10 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Template.Domain.Responses;
 using Xunit;
-using Template.WebApi.Controllers;
+using Template.Api.Controllers;
+using Template.Domain.Responses;
 
-namespace Template.WebApi.Tests.Unit.Controllers
+namespace Template.Api.Tests.Unit.Controllers
 {
     public class ContentsControllerTests
     {

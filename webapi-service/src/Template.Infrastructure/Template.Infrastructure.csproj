@@ -9,4 +9,10 @@
     <Version>$(Version)</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="AggregateName\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Template.Domain\Template.Domain.csproj" />
+  </ItemGroup>
 </Project>

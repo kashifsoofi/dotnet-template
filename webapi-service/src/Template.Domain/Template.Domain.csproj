@@ -9,4 +9,7 @@
     <Version>$(Version)</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="AggregateName\" />
+  </ItemGroup>
 </Project>

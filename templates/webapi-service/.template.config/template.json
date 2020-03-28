@@ -42,7 +42,8 @@
             "parameters": {
                 "format": "yyyyMMdd_HHmm"
             },
-            "replaces":"yyyyMMdd_HHmm"
+            "replaces":"yyyyMMdd_HHmm",
+            "fileRename": "yyyyMMdd_HHmm"
         }
     },
     "sources": [{

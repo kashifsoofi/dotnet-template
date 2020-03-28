@@ -4,7 +4,6 @@
     "classifications": [ "Common", "Code" ],
     "name": "Aggreate Template",
     "identity": "Template.Aggregate",
-    "groupIdentity": "Template.WebApi",
     "shortName": "aggregate",
     "tags": {
         "language": "C#",
@@ -12,6 +11,13 @@
     },
     "exclude": [ ".vs/**/*", "**/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json" ],
     "symbols": {
+        "serviceName": {
+            "type": "parameter",
+            "datatype": "string",
+            "isRequired": true,
+            "replaces": "Template",
+            "fileRename": "Template"
+        },
         "aggregateName": {
             "type": "parameter",
             "datatype": "string",

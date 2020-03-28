@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0</PackageVersion>
-    <PackageId>Kashif.Utility.Templates</PackageId>
+    <PackageId>Personal.Utility.Templates</PackageId>
     <Title>Personal Templates</Title>
     <Authors>Me</Authors>
     <Description>Templates to use when creating an application for Personal projects.</Description>

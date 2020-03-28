@@ -25,6 +25,14 @@
             "replaces": "AggregateName",
             "fileRename": "AggregateName",
             "defaultValue": "Example"
+        },
+        "createdDate": {
+            "type": "generated",
+            "generator": "now",
+            "parameters": {
+                "format": "yyyyMMdd_HHmm"
+            },
+            "replaces":"yyyyMMdd_HHmm"
         }
     }
 }

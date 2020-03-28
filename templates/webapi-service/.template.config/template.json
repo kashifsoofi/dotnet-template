@@ -36,6 +36,14 @@
             "datatype": "bool",
             "defaultValue": "true"
         },
+        "createdDate": {
+            "type": "generated",
+            "generator": "now",
+            "parameters": {
+                "format": "yyyyMMdd_HHmm"
+            },
+            "replaces":"yyyyMMdd_HHmm"
+        }
     },
     "sources": [{
         "modifiers": [

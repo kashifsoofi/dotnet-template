@@ -1,0 +1,39 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Kashif Jamal Soofi",
+    "classifications": [ "Common", "Code" ],
+    "name": "Aggreate Template",
+    "identity": "Template.Aggregate",
+    "shortName": "aggregate",
+    "tags": {
+        "language": "C#",
+        "type": "item"
+    },
+    "exclude": [ ".vs/**/*", "**/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json" ],
+    "symbols": {
+        "serviceName": {
+            "type": "parameter",
+            "datatype": "string",
+            "isRequired": true,
+            "replaces": "Template",
+            "fileRename": "Template"
+        },
+        "aggregateName": {
+            "type": "parameter",
+            "datatype": "string",
+            "isRequired": true,
+            "replaces": "AggregateName",
+            "fileRename": "AggregateName",
+            "defaultValue": "Example"
+        },
+        "createdDate": {
+            "type": "generated",
+            "generator": "now",
+            "parameters": {
+                "format": "yyyyMMdd_HHmm"
+            },
+            "replaces":"yyyyMMdd_HHmm",
+            "fileRename": "yyyyMMdd_HHmm"
+        }
+    }
+}

@@ -2,7 +2,7 @@
     "$schema": "http://json.schemastore.org/template",
     "author": "Kashif Jamal Soofi",
     "classifications": [ "Common", "Code" ],
-    "name": "Aggreate Template",
+    "name": "Aggregate Template",
     "identity": "Template.Aggregate",
     "shortName": "aggregate",
     "tags": {

@@ -6,6 +6,9 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
+var packagesDir = ".";
+var packageVersion = "1.0.0";
+
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
@@ -26,16 +29,26 @@ Task("Clean")
 Task("Copy-Aggregate-Files")
     .IsDependentOn("Clean")
     .Does(() =>
-{
-    CopyFiles("./templates/webapi-service/**/*AggregateName*.*", "./templates/aggregate", true);
-});
+    {
+        CopyFiles("./templates/webapi-service/**/*AggregateName*.*", "./templates/aggregate", true);
+    });
 
 Task("Build-Template-Pack")
     .IsDependentOn("Copy-Aggregate-Files")
     .Does(() =>
-{
-    
-});
+    {
+        var settings = new DotNetCorePackSettings
+        {
+            Configuration = configuration,
+            NoBuild = true,
+            NoRestore = true,
+            IncludeSymbols = false,
+            OutputDirectory = packagesDir,
+            MSBuildSettings = new DotNetCoreMSBuildSettings()
+                .WithProperty("PackageVersion", packageVersion)
+        };
+        DotNetCorePack(".", settings);
+    });
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS

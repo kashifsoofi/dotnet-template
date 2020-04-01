@@ -21,15 +21,4 @@
     <Compile Remove="**\*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AggregateFiles Include="$(ProjectDir)\templates\webapi-service\**\*AggregateName*.*"/>
-  </ItemGroup>
-
-  <Target Name="CopyFiles" BeforeTargets="BeforeBuild">
-    <Copy
-      SourceFiles="@(AggregateFiles)"
-      DestinationFiles="@(AggregateFiles->'$(ProjectDir)\templates\aggregate\%(RecursiveDir)%(Filename)%(Extension)')"
-    />
-  </Target>
-  
 </Project>

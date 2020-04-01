@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
     <PackageVersion>1.0</PackageVersion>
     <PackageId>Personal.Utility.Templates</PackageId>
     <Title>Personal Templates</Title>
@@ -17,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    <Content Include="templates\**\*" Exclude="templates\**\.vs;templates\**\bin\**;templates\**\obj\**;templates\aggregate\.gitignore;templates\**\.DS_Store" />
     <Compile Remove="**\*" />
   </ItemGroup>
 

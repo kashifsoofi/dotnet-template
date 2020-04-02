@@ -35,5 +35,29 @@
             "replaces":"yyyyMMdd_HHmm",
             "fileRename": "yyyyMMdd_HHmm"
         }
-    }
+    },
+    "postActions": [
+        {
+            "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+            "continueOnError": true,
+            "description": "Opens 1.txt in the editor",
+            "manualInstructions": [
+                { "text": "Open 0ReadMe.txt in a editor." }
+            ],
+            "args": {
+                "files": "1"
+            }
+        },
+        {
+            "actionId": "FEA7469E-E2E7-4431-B86B-27EBC1744883",
+            "continueOnError": true,
+            "description": "Opens ReadMe.html in the browser",
+            "manualInstructions": [
+                { "text": "Open ReadMe.html in the browser." }
+            ],
+            "args": {
+                "files": "1"
+            }
+        }
+    ]
 }

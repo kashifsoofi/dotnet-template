@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Template.Domain.Requests
+﻿namespace Template.Domain.Requests
 {
-    public class CreateValueRequest
+    public class CreateContentRequest
     {
+        public int Id { get; set; }
+        public string Value { get; set; }
     }
 }

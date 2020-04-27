@@ -6,7 +6,7 @@
 
 ## Run postman collections
 Run docker image to run postman collections with api service running on docker host (local.postman_environment.json)  
-`docker run template-postman`  
+`docker run webapi-service-postman`  
 To run collections with other environments  
 `docker run webapi-service-postman --environment local.postman_environment.json`  
 To run collections with environment variable not specified in environment file  

@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "cf00ebac-77fa-4d64-bdf6-089370e406d7",
+		"name": "Template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetContent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0cc10440-a8c6-4986-b025-d6fb09be78c4",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Contents count is 2\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.results.length).to.eql(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/api/contents",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"contents"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

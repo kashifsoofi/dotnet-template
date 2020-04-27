@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Template.Domain.Requests;
 using Template.Domain.Responses;
 
 namespace Template.Api.Controllers
@@ -31,9 +32,10 @@ namespace Template.Api.Controllers
 
         // POST api/contents
         [HttpPost]
-        public IActionResult Post([FromBody] Content request)
+        public IActionResult Post([FromBody] CreateContentRequest request)
         {
-            return CreatedAtAction("Get", new { id = request.Id }, request);
+            var content = new Content(request.Id, request.Value);
+            return CreatedAtAction("Get", new { id = content.Id }, content);
         }
 
         // PUT api/contents/5

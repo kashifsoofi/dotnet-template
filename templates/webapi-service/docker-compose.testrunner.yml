@@ -7,4 +7,4 @@ services:
       context: .
       dockerfile: Dockerfile.Testrunner
     volumes:
-      - ./testresults:/testrestuls
+      - ${TEST_RESULTS_PATH}:/testresults

@@ -21,10 +21,11 @@ namespace Template.Api.Tests.Integration
         public async Task Get_should_return_ok_with_content()
         {
             // Arrange
+            var id = 1;
             var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync("api/contents/1");
+            var response = await client.GetAsync($"api/contents/{id}");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -32,7 +33,7 @@ namespace Template.Api.Tests.Integration
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<Content>(responseContent);
-            content.Value.Should().Be("value123");
+            content.Value.Should().Be($"value{id}");
         }
     }
 }

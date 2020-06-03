@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 WORKDIR /build
 
 # copy csproj and restore as distinct layers
@@ -9,18 +9,18 @@ COPY src/*/*.csproj ./
 RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 
 # Restore to cache the layers
-RUN dotnet restore ./src/Template.MessageProcessor/Template.MessageProcessor.csproj
+RUN dotnet restore ./src/Template.Host/Template.Host.csproj
 
 # Copy all the source code and build
 COPY ./src ./src
 
-RUN dotnet build ./src/Template.MessageProcessor/Template.MessageProcessor.csproj -c Release --no-restore
+RUN dotnet build ./src/Template.Host/Template.Host.csproj -c Release --no-restore
 
 FROM build AS publish
-RUN dotnet publish ./src/Template.MessageProcessor/Template.MessageProcessor.csproj -c Release -o /app --no-restore --no-build
+RUN dotnet publish ./src/Template.Host/Template.Host.csproj -c Release -o /app --no-restore --no-build
 
 # App image
-FROM mcr.microsoft.com/dotnet/core/runtime:2.2-alpine AS runtime
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1-alpine AS runtime
 WORKDIR /app
 COPY --from=publish /app ./
-ENTRYPOINT ["dotnet", "Template.MessageProcessor.dll"]
+ENTRYPOINT ["dotnet", "Template.Host.dll"]

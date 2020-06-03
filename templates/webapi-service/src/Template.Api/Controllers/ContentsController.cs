@@ -26,7 +26,7 @@ namespace Template.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var content = new Content(id, "value1");
+            var content = new Content(id, $"value{id}");
             return Ok(content);
         }
 

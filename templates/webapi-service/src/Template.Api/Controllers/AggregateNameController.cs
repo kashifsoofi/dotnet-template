@@ -8,7 +8,7 @@ namespace Template.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContentsController : ControllerBase
+    public class AggregateNameController : ControllerBase
     {
         // GET api/contents
         [HttpGet]

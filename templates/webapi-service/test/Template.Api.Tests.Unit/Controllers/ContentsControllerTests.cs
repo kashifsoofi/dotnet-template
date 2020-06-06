@@ -6,13 +6,13 @@ using Template.Domain.Responses;
 
 namespace Template.Api.Tests.Unit.Controllers
 {
-    public class ContentsControllerTests
+    public class AggregateNameControllerTests
     {
-        private readonly ContentsController _sut;
+        private readonly AggregateNameController _sut;
 
-        public ContentsControllerTests()
+        public AggregateNameControllerTests()
         {
-            _sut = new ContentsController();
+            _sut = new AggregateNameController();
         }
 
         [Fact]

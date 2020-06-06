@@ -9,4 +9,10 @@
     <Version>$(Version)</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Messages\" />
+    <Folder Include="Messages\Commands\" />
+    <Folder Include="Messages\Events\" />
+    <Folder Include="Responses\" />
+  </ItemGroup>
 </Project>

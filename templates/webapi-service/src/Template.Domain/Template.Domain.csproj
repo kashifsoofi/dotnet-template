@@ -12,4 +12,7 @@
   <ItemGroup>
     <Folder Include="AggregateName\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Template.Contracts\Template.Contracts.csproj" />
+  </ItemGroup>
 </Project>

@@ -2,11 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <IsPackable>true</IsPackable>
-    <PackageId>Template.Contracts</PackageId>
-    <Authors>Kashif Soofi</Authors>
-    <Description>Template Contracts</Description>
-    <Version>$(Version)</Version>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,7 @@
-﻿using System;
-namespace Template.Contracts.Responses
+﻿namespace Template.Contracts.Responses
 {
+    using System;
+
     public class AggregateName
     {
         public Guid Id { get; set; }

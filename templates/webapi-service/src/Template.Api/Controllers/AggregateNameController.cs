@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Template.Domain.Requests;
-using Template.Domain.Responses;
+using Template.Contracts.Requests;
+using Template.Contracts.Responses;
 
 namespace Template.Api.Controllers
 {
@@ -10,42 +10,42 @@ namespace Template.Api.Controllers
     [ApiController]
     public class AggregateNameController : ControllerBase
     {
-        // GET api/contents
+        // GET api/aggreatename
         [HttpGet]
         public IActionResult Get()
         {
-            var contents = new List<Content>
+            var aggregatenames = new List<AggregateName>
             {
-                new Content(1, "value1"),
-                new Content(2, "value2")
+                new AggregateName { Id = Guid.NewGuid(), CreatedOn = DateTime.UtcNow, UpdatedOn = DateTime.UtcNow },
+                new AggregateName { Id = Guid.NewGuid(), CreatedOn = DateTime.UtcNow, UpdatedOn = DateTime.UtcNow },
             };
-            return Ok(new GetContentsResponse(contents));
+            return Ok(aggregatenames);
         }
 
-        // GET api/contents/5
+        // GET api/aggregatename/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(Guid id)
         {
-            var content = new Content(id, $"value{id}");
-            return Ok(content);
+            var aggregatename = new AggregateName { Id = id, CreatedOn = DateTime.UtcNow, UpdatedOn = DateTime.UtcNow };
+            return Ok(aggregatename);
         }
 
-        // POST api/contents
+        // POST api/aggreatename
         [HttpPost]
-        public IActionResult Post([FromBody] CreateContentRequest request)
+        public IActionResult Post([FromBody] CreateAggregateNameRequest request)
         {
-            var content = new Content(request.Id, request.Value);
-            return CreatedAtAction("Get", new { id = content.Id }, content);
+            var aggregatename = new AggregateName { Id = request.Id, CreatedOn = DateTime.UtcNow, UpdatedOn = DateTime.UtcNow };
+            return CreatedAtAction("Get", new { id = aggregatename.Id }, aggregatename);
         }
 
-        // PUT api/contents/5
+        // PUT api/aggreatename/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] string value)
         {
             return NoContent();
         }
 
-        // DELETE api/contents/5
+        // DELETE api/aggreatename/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

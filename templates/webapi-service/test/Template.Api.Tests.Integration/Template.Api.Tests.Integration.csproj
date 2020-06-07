@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Template.Api\Template.Api.csproj" />
+    <ProjectReference Include="..\..\src\Template.Contracts\Template.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

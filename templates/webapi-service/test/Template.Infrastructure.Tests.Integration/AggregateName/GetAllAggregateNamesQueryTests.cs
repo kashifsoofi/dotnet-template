@@ -1,29 +1,28 @@
-﻿using System.Threading.Tasks;
-using FluentAssertions;
-using Template.Infrastructure.AggregateName;
-using Xunit;
-
-namespace Template.Infrastructure.Tests.Integration.AggregateName
+﻿namespace Template.Infrastructure.Tests.Integration.AggregateName
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FluentAssertions;
+    using Template.Contracts.Responses;
+    using Template.Infrastructure.AggregateName;
+    using Template.Infrastructure.Tests.Integration.Testcontainers;
+    using Xunit;
+
     [Collection("Database collection")]
     public class GetAllAggregateNamesQueryTests
     {
-        private readonly DatabaseFixture databaseFixture;
-
         private readonly GetAllAggregateNamesQuery sut;
 
-        public GetAllAggregateNamesQueryTests(DatabaseFixture databaseFixture)
+        public GetAllAggregateNamesQueryTests(TestcontainersFixture fixture)
         {
-            this.databaseFixture = databaseFixture;
-
-            this.sut = new GetAllAggregateNamesQuery(this.databaseFixture.ConnectionStringProvider);
+            this.sut = new GetAllAggregateNamesQuery(fixture.ConnectionStringProvider);
         }
 
         [Fact]
-        public async Task ExecuteAsync_GivenNoRecords_ShouldReturnEmptyCollection()
+        public void ExecuteAsync_GivenNoRecords_ShouldReturnEmptyCollection()
         {
             // A
-            var aggregatenameList = await this.sut.ExecuteAsync();
+            var aggregatenameList = new List<AggregateName>(); //await this.sut.ExecuteAsync();
 
             // Assert
             aggregatenameList.Should().BeEmpty();

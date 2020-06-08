@@ -11,7 +11,7 @@
             : base("mysql", "5.6", containerName)
         { }
 
-        public readonly string ConnectionString = "Server=127.0.0.1;Port=3306;Database=integrationdefaultdb;Uid=root;Pwd=integration123;";
+        public string ConnectionString = "Server=127.0.0.1;Port=33060;Database=integrationdefaultdb;Uid=root;Pwd=integration123;SslMode=none;";
 
         protected override Task<bool> IsReady()
         {
@@ -30,24 +30,21 @@
             });
         }
 
-        public override HostConfig ToHostConfig()
+        public override HostConfig HostConfig()
         {
             return new HostConfig
             {
                 PortBindings = new Dictionary<string, IList<PortBinding>>
                 {
                     {
-                        "3306",
-                        new List<PortBinding>
-                        {
-                            new PortBinding { HostPort = "3306", HostIP = "127.0.0.1" },
-                        }
+                        "3306/tcp", new List<PortBinding> { new PortBinding { HostPort = "33060" }}
                     },
                 },
+                PublishAllPorts = true,
             };
         }
 
-        public override Config ToConfig()
+        public override Config Config()
         {
             return new Config
             {

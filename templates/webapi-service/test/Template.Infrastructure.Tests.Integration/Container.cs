@@ -67,8 +67,8 @@
 
         private async Task CreateContainer(IDockerClient client)
         {
-            var hostConfig = ToHostConfig();
-            var config = ToConfig();
+            var hostConfig = HostConfig();
+            var config = Config();
 
             await client.Containers.CreateContainerAsync(new CreateContainerParameters(config)
             {
@@ -81,9 +81,9 @@
 
         protected abstract Task<bool> IsReady();
 
-        public abstract HostConfig ToHostConfig();
+        public abstract HostConfig HostConfig();
 
-        public abstract Config ToConfig();
+        public abstract Config Config();
 
         public override string ToString()
         {

@@ -1,5 +1,6 @@
 ﻿namespace Template.Infrastructure.Tests.Integration
 {
+    using System;
     using System.IO;
     using System.Threading.Tasks;
     using Docker.DotNet;
@@ -25,13 +26,22 @@
         {
             using (var tarball = CreateTarball(context))
             {
-                await client.Images.BuildImageFromDockerfileAsync(
+                var responseStream = await client.Images.BuildImageFromDockerfileAsync(
                     tarball,
                     new ImageBuildParameters
                     {
                         Dockerfile = this.dockerfile,
                         Tags = new string[] { $"{this.imageName}:{this.tag}" },
                     });
+
+                int a = 0;
+
+                //await this.WaitUntil(async () =>
+                //{
+                //    var images = await client.Images.ListImagesAsync(new ImagesListParameters
+                //        {MatchName = this.imageName});
+                //    return images.Count > 0;
+                //}, 250, -1);
             }
         }
 
@@ -81,6 +91,24 @@
             //Reset the stream and return it, so it can be used by the caller
             tarball.Position = 0;
             return tarball;
+        }
+
+        private async Task WaitUntil(Func<Task<bool>> isReady, int frequency, int timeout = -1)
+        {
+            var waitTask = Task.Run(async () =>
+            {
+                while (!await isReady())
+                {
+                    await Task.Delay(frequency);
+                };
+            });
+
+            await RethrowPotentialException(await Task.WhenAny(waitTask, Task.Delay(timeout)), waitTask);
+        }
+
+        private static Task RethrowPotentialException(Task completedTask, Task waitTask)
+        {
+            return completedTask == waitTask ? completedTask : throw new TimeoutException();
         }
     }
 }

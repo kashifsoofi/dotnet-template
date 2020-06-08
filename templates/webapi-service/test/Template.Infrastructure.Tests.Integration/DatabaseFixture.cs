@@ -11,6 +11,8 @@ using Xunit;
 
 namespace Template.Infrastructure.Tests.Integration
 {
+    using System.Runtime.InteropServices;
+
     public class DatabaseFixture : IAsyncLifetime
     {
         private const string Database = "integrationdefaultdb";
@@ -40,10 +42,12 @@ namespace Template.Infrastructure.Tests.Integration
             //    .WithWaitStrategy(Wait.ForUnixContainer());
 
             //this.databaseContainer = databaseContainerBuilder.Build();
-            this.dockerClient = new DockerClientConfiguration(new Uri("unix:///var/run/docker.sock")).CreateClient();
+            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            var endpoint = isWindows ? new Uri("npipe://./pipe/docker_engine") : new Uri("unix:///var/run/docker.sock");
+            this.dockerClient = new DockerClientConfiguration(endpoint).CreateClient();
             this.databaseContainer = new MySql56Container("template-integration-db");
-            this.databaseMigrationsImage = new DatabaseMigrationsImage("template-integration-db-migrations", "1.0", "../../../../../db/");
-            this.databaseMigrationsContainer = new DatabaseMigrationsContainer("template-integration-db-migrations", "1.0", "");
+            this.databaseMigrationsImage = new DatabaseMigrationsImage("template-integration-db-migrations", "1.1", "../../../../../db/");
+            this.databaseMigrationsContainer = new DatabaseMigrationsContainer("template-integration-db-migrations", "1.1", "");
         }
 
         public async Task InitializeAsync()
@@ -53,8 +57,8 @@ namespace Template.Infrastructure.Tests.Integration
 
             this.ConnectionStringProvider = new ConnectionStringProvider(new DatabaseOptions
             {
-                Server = "127.0.0.1",
-                Port = 3306,
+                Server = "localhost",
+                Port = 33060,
                 Username = "root",
                 Password = Password,
             });

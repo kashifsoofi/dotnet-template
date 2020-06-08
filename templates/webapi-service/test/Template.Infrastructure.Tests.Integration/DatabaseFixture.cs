@@ -18,108 +18,77 @@ namespace Template.Infrastructure.Tests.Integration
         private const string Database = "integrationdefaultdb";
         private const string Password = "integration123";
 
-        //private readonly TestcontainersContainer databaseContainer;
-        //private TestcontainersContainer databaseMigrationsContainer;
+        private readonly TestcontainersContainer databaseContainer;
+        private TestcontainersContainer databaseMigrationsContainer;
 
-        private readonly IDockerClient dockerClient;
-
-        private readonly Container databaseContainer;
-        private readonly DatabaseMigrationsImage databaseMigrationsImage;
-        private readonly Container databaseMigrationsContainer;
-
-        //private string databaseMigrationsImage;
+        private string databaseMigrationsImage;
 
         public IConnectionStringProvider ConnectionStringProvider { get; private set; }
 
         public DatabaseFixture()
         {
-            //var databaseContainerBuilder = new TestcontainersBuilder<TestcontainersContainer>()
-            //    .WithName("template-integration-db")
-            //    .WithImage("mysql:5.6")
-            //    .WithEnvironment("MYSQL_ROOT_PASSWORD", Password)
-            //    .WithEnvironment("MYSQL_DATABASE", Database)
-            //    .WithPortBinding(3306, true)
-            //    .WithWaitStrategy(Wait.ForUnixContainer());
+            var databaseContainerBuilder = new TestcontainersBuilder<TestcontainersContainer>()
+                .WithName("template-integration-db")
+                .WithImage("mysql:5.6")
+                .WithEnvironment("MYSQL_ROOT_PASSWORD", Password)
+                .WithEnvironment("MYSQL_DATABASE", Database)
+                .WithPortBinding(3306, true)
+                .WithWaitStrategy(Wait.ForUnixContainer());
 
-            //this.databaseContainer = databaseContainerBuilder.Build();
-            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var endpoint = isWindows ? new Uri("npipe://./pipe/docker_engine") : new Uri("unix:///var/run/docker.sock");
-            this.dockerClient = new DockerClientConfiguration(endpoint).CreateClient();
-            this.databaseContainer = new MySql56Container("template-integration-db");
-            this.databaseMigrationsImage = new DatabaseMigrationsImage("template-integration-db-migrations", "1.1", "../../../../../db/");
-            this.databaseMigrationsContainer = new DatabaseMigrationsContainer("template-integration-db-migrations", "1.1", "");
+            this.databaseContainer = databaseContainerBuilder.Build();
         }
 
         public async Task InitializeAsync()
         {
-            await this.databaseMigrationsImage.BuildAsync(this.dockerClient);
-            await this.databaseContainer.StartAsync(this.dockerClient);
+            var databaseMigrationsImageBuilder = new ImageFromDockerfileBuilder()
+                .WithName("template-integration-db-migrations")
+                .WithDockerfile("Dockerfile")
+                .WithDockerfileDirectory("../../../../../db/")
+                .WithDeleteIfExists(true);
+
+            this.databaseMigrationsImage = await databaseMigrationsImageBuilder.Build();
+
+            await databaseContainer.StartAsync();
 
             this.ConnectionStringProvider = new ConnectionStringProvider(new DatabaseOptions
             {
-                Server = "localhost",
-                Port = 33060,
+                Server = this.databaseContainer.Hostname,
+                Port = this.databaseContainer.GetMappedPublicPort(3306),
+                Database = Database,
                 Username = "root",
                 Password = Password,
             });
 
-            await this.databaseMigrationsContainer.StartAsync(this.dockerClient);
+            var isReady = await WaitUntil(() => ConnectionIsReady(this.ConnectionStringProvider.TemplateConnectionString), 250);
+            if (!isReady)
+            {
+                throw new TimeoutException();
+            }
 
-            //var databaseMigrationsImageBuilder = new ImageFromDockerfileBuilder()
-            //    .WithName("template-integration-db-migrations")
-            //    .WithDockerfile("Dockerfile")
-            //    .WithDockerfileDirectory("../../../../../db/")
-            //    .WithDeleteIfExists(true);
-
-            //this.databaseMigrationsImage = await databaseMigrationsImageBuilder.Build();
-
-            //await databaseContainer.StartAsync();
-
-            //this.ConnectionStringProvider = new ConnectionStringProvider(new DatabaseOptions
-            //{
-            //    Server = this.databaseContainer.Hostname,
-            //    Port = this.databaseContainer.GetMappedPublicPort(3306),
-            //    Database = Database,
-            //    Username = "root",
-            //    Password = Password,
-            //});
-
-            //var isReady = await WaitUntil(() => ConnectionIsReady(this.ConnectionStringProvider.TemplateConnectionString), 250);
-            //if (!isReady)
-            //{
-            //    throw new TimeoutException();
-            //}
-
-            //var databaseMigrationsContainerBuilder = new TestcontainersBuilder<TestcontainersContainer>()
-            //    .WithImage(databaseMigrationsImage)
-            //    .WithCommand($"-cs {this.ConnectionStringProvider.TemplateConnectionString}")
-            //    .WithWaitStrategy(Wait.ForUnixContainer());
-            //this.databaseMigrationsContainer = databaseMigrationsContainerBuilder.Build();
-            //try
-            //{
-            //    await databaseMigrationsContainer.StartAsync();
-            //    var exitCode = await databaseContainer.GetExitCode();
-            //    if (exitCode > 0)
-            //    {
-            //        throw new Exception("Database migrations failed");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+            var databaseMigrationsContainerBuilder = new TestcontainersBuilder<TestcontainersContainer>()
+                .WithImage(databaseMigrationsImage)
+                .WithCommand($"-cs {this.ConnectionStringProvider.TemplateConnectionString}")
+                .WithWaitStrategy(Wait.ForUnixContainer());
+            this.databaseMigrationsContainer = databaseMigrationsContainerBuilder.Build();
+            try
+            {
+                await databaseMigrationsContainer.StartAsync();
+                var exitCode = await databaseContainer.GetExitCode();
+                if (exitCode > 0)
+                {
+                    throw new Exception("Database migrations failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task DisposeAsync()
         {
-            await this.databaseContainer.StopAsync(this.dockerClient);
-            await this.databaseContainer.RemoveAsync(this.dockerClient);
-
-            await this.databaseMigrationsContainer.StopAsync(this.dockerClient);
-            await this.databaseMigrationsContainer.RemoveAsync(this.dockerClient);
-
-            //await this.databaseContainer.DisposeAsync();
-            //await this.databaseMigrationsContainer.DisposeAsync();
+            await this.databaseContainer.DisposeAsync();
+            await this.databaseMigrationsContainer.DisposeAsync();
         }
 
         private async Task<bool> WaitUntil(Func<Task<bool>> wait, int frequency, int timeout = -1)

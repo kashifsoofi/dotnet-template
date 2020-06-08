@@ -1,4 +1,4 @@
-﻿namespace Template.Infrastructure.Tests.Integration
+﻿namespace Template.Infrastructure.Tests.Integration.DockerClient
 {
     using System;
     using System.IO;

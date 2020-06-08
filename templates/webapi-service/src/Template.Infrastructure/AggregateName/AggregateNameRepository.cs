@@ -1,9 +1,10 @@
 ﻿using System;
-using Template.Domain.AggregateName;
 
 namespace Template.Infrastructure.AggregateName
 {
-    public class AggregateNameRepository : IAggregateNameRepository
+    using Template.Domain.Aggregates.AggregateName;
+
+    public class AggregateNameRepository : IAggregateNameAggregateRepository
     {
         public AggregateNameRepository()
         {

@@ -21,6 +21,6 @@
     <ProjectReference Include="..\..\src\Template.Domain\Template.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AggregateName\" />
+    <Folder Include="Aggregates\AggregateNameAggregate\" />
   </ItemGroup>
 </Project>

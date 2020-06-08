@@ -34,14 +34,12 @@
                         Tags = new string[] { $"{this.imageName}:{this.tag}" },
                     });
 
-                int a = 0;
-
-                //await this.WaitUntil(async () =>
-                //{
-                //    var images = await client.Images.ListImagesAsync(new ImagesListParameters
-                //        {MatchName = this.imageName});
-                //    return images.Count > 0;
-                //}, 250, -1);
+                await this.WaitUntil(async () =>
+                {
+                    var images = await client.Images.ListImagesAsync(new ImagesListParameters
+                    { MatchName = this.imageName });
+                    return images.Count > 0;
+                }, 250, -1);
             }
         }
 

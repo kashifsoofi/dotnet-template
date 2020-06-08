@@ -14,6 +14,8 @@
 
         public string ContainerName { get; }
 
+        private string id;
+
         public Container(string imageName, string tag, string containerName)
         {
             this.ImageName = imageName;
@@ -55,6 +57,11 @@
             await WaitUntil(IsReady, 250, -1);
         }
 
+        public async Task WaitAsync(IDockerClient client)
+        {
+            await client.Containers.WaitContainerAsync(this.id);
+        }
+
         public async Task StopAsync(IDockerClient client)
         {
             await client.Containers.StopContainerAsync(this.ContainerName, new ContainerStopParameters());
@@ -70,13 +77,14 @@
             var hostConfig = HostConfig();
             var config = Config();
 
-            await client.Containers.CreateContainerAsync(new CreateContainerParameters(config)
+            var createContainerResponse = await client.Containers.CreateContainerAsync(new CreateContainerParameters(config)
             {
                 Image = $"{this.ImageName}:{this.Tag}",
                 Name = ContainerName,
                 Tty = true,
                 HostConfig = hostConfig,
             });
+            this.id = createContainerResponse.ID;
         }
 
         protected abstract Task<bool> IsReady();

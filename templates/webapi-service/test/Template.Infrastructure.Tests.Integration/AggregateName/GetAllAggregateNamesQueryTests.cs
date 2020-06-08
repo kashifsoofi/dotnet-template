@@ -5,6 +5,7 @@
     using FluentAssertions;
     using Template.Contracts.Responses;
     using Template.Infrastructure.AggregateName;
+    using Template.Infrastructure.Tests.Integration.DockerClient;
     using Template.Infrastructure.Tests.Integration.Testcontainers;
     using Xunit;
 
@@ -13,16 +14,16 @@
     {
         private readonly GetAllAggregateNamesQuery sut;
 
-        public GetAllAggregateNamesQueryTests(TestcontainersFixture fixture)
+        public GetAllAggregateNamesQueryTests(DockerFixture fixture)
         {
             this.sut = new GetAllAggregateNamesQuery(fixture.ConnectionStringProvider);
         }
 
         [Fact]
-        public void ExecuteAsync_GivenNoRecords_ShouldReturnEmptyCollection()
+        public async Task ExecuteAsync_GivenNoRecords_ShouldReturnEmptyCollection()
         {
             // A
-            var aggregatenameList = new List<AggregateName>(); //await this.sut.ExecuteAsync();
+            var aggregatenameList = await this.sut.ExecuteAsync();
 
             // Assert
             aggregatenameList.Should().BeEmpty();

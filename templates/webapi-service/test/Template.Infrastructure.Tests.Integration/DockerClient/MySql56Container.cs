@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Docker.DotNet.Models;
-    using MySql.Data.MySqlClient;
+    using MySqlConnector;
 
     public class MySql56Container : Container
     {

@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Linq;
-    using MySql.Data.MySqlClient;
+    using MySqlConnector;
     using Template.Infrastructure.Database;
     using Template.Contracts.Responses;
     using Dapper;

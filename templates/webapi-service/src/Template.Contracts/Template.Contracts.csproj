@@ -10,9 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Messages\" />
-    <Folder Include="Messages\Commands\" />
-    <Folder Include="Messages\Events\" />
     <Folder Include="Responses\" />
     <Folder Include="Requests\" />
   </ItemGroup>

@@ -1,0 +1,3 @@
+﻿SELECT
+    Id
+FROM AggregateName

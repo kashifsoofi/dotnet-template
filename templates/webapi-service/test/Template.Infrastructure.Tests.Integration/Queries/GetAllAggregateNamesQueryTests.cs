@@ -1,12 +1,9 @@
-﻿namespace Template.Infrastructure.Tests.Integration.AggregateName
+﻿namespace Template.Infrastructure.Tests.Integration.Queries
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using FluentAssertions;
-    using Template.Contracts.Responses;
-    using Template.Infrastructure.AggregateName;
+    using Template.Infrastructure.Queries;
     using Template.Infrastructure.Tests.Integration.DockerClient;
-    using Template.Infrastructure.Tests.Integration.Testcontainers;
     using Xunit;
 
     [Collection("Database collection")]

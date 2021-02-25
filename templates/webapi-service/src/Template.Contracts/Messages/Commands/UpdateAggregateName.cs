@@ -2,11 +2,11 @@
 {
     using System;
 
-    public class CreateAggregateName
+    public class UpdateAggregateName
     {
         public Guid Id { get; set; }
 
-        public CreateAggregateName(Guid id)
+        public UpdateAggregateName(Guid id)
         {
             Id = id;
         }

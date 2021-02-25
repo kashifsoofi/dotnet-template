@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AggregateName\" />
-    <Folder Include="Database\" />
+    <None Remove="**\Sql\*.sql" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\Sql\*.sql" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Template.Domain\Template.Domain.csproj" />
     <ProjectReference Include="..\Template.Contracts\Template.Contracts.csproj" />

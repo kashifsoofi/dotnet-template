@@ -23,7 +23,7 @@
                     connection.Open();
                     return true;
                 }
-                catch (MySqlException ex)
+                catch (MySqlException)
                 {
                     return false;
                 }

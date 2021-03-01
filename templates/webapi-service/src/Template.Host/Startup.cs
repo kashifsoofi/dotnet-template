@@ -1,5 +1,6 @@
 ﻿namespace Template.Host
 {
+    using Autofac;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Template.Domain.Aggregates.AggregateName;
@@ -15,15 +16,15 @@
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureContainer(ContainerBuilder builder)
         {
             var databaseOptions = Configuration.GetSection("Database").Get<DatabaseOptions>();
-            services.AddSingleton<IDatabaseOptions>(databaseOptions);
-            services.AddSingleton<IConnectionStringProvider, ConnectionStringProvider>();
+            builder.RegisterInstance(databaseOptions).As<IDatabaseOptions>().SingleInstance();
+            builder.RegisterType<ConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
 
-            services.AddSingleton<IAggregateNameAggregateFactory, AggregateNameAggregateFactory>();
-            services.AddSingleton<IAggregateNameAggregateReadRepository, AggregateNameRepository>();
-            services.AddSingleton<IAggregateNameAggregateWriteRepository, AggregateNameRepository>();
+            builder.RegisterType<AggregateNameAggregateFactory>().As<IAggregateNameAggregateFactory>().SingleInstance();
+            builder.RegisterType<AggregateNameRepository>().As<IAggregateNameAggregateReadRepository>().SingleInstance();
+            builder.RegisterType<AggregateNameRepository>().As<IAggregateNameAggregateWriteRepository>().SingleInstance();
         }
     }
 }

@@ -64,9 +64,9 @@
                         throw new Exception("Database migrations failed");
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
 
                 this.ConnectionStringProvider = new ConnectionStringProvider(new DatabaseOptions
@@ -77,7 +77,7 @@
                     Password = this.Password,
                 });
             }
-            catch (Exception e)
+            catch
             {
                 throw;
             }

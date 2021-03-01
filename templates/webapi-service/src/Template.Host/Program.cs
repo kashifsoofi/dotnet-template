@@ -1,39 +1,30 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Autofac;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-
-namespace Template.Host
+﻿namespace Template.Host
 {
+    using System.Threading.Tasks;
+    using Autofac;
+    using Autofac.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using NServiceBus;
+    using Serilog;
+    using Serilog.Events;
 
     class Program
     {
         public static async Task Main(string[] args)
         {
-            var host = new HostBuilder()
-                .ConfigureHostConfiguration(configHost =>
-                {
-                    configHost.SetBasePath(Directory.GetCurrentDirectory());
-                    configHost.AddJsonFile("hostsettings.json", optional: true);
-                    configHost.AddEnvironmentVariables(prefix: "PREFIX_");
-                    configHost.AddCommandLine(args);
-                })
-                .ConfigureAppConfiguration((hostContext, configApp) =>
-                {
-                    configApp.SetBasePath(Directory.GetCurrentDirectory());
-                    configApp.AddJsonFile("appsettings.json", optional: true);
-                    configApp.AddJsonFile(
-                        $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
-                        optional: true);
-                    configApp.AddEnvironmentVariables(prefix: "PREFIX_");
-                    configApp.AddCommandLine(args);
-                })
-                .ConfigureServices((hostBuilderContext, services) =>
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.File("Template.Api.log", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            var host = CreateHostBuilder(args)
+                .UseSerilog()
+                .ConfigureContainer((HostBuilderContext hostBuilderContext, ContainerBuilder builder) =>
                 {
                     var startup = new Startup(hostBuilderContext.Configuration);
-                    startup.ConfigureServices(services);
+                    startup.ConfigureContainer(builder);
                 })
                 .UseNServiceBus(context =>
                 {
@@ -55,10 +46,13 @@ namespace Template.Host
 
                     return endpointConfiguration;
                 })
-                .UseConsoleLifetime()
-                .Build();
+                .UseConsoleLifetime();
 
-            await host.RunAsync();
+            await host.RunConsoleAsync();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory());
     }
 }

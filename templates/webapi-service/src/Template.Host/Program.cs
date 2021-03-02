@@ -16,7 +16,7 @@
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.File("Template.Api.log", rollingInterval: RollingInterval.Day)
+                .WriteTo.File("Template.Host.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             var host = CreateHostBuilder(args)
@@ -48,7 +48,7 @@
                 })
                 .UseConsoleLifetime();
 
-            await host.RunConsoleAsync();
+            await host.Build().RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

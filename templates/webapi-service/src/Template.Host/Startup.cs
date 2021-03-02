@@ -19,7 +19,7 @@
         public void ConfigureContainer(ContainerBuilder builder)
         {
             var databaseOptions = Configuration.GetSection("Database").Get<DatabaseOptions>();
-            builder.RegisterInstance(databaseOptions).As<IDatabaseOptions>().SingleInstance();
+            builder.RegisterInstance(databaseOptions).As<IDatabaseOptions>().AsSelf().SingleInstance();
             builder.RegisterType<ConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
 
             builder.RegisterType<AggregateNameAggregateFactory>().As<IAggregateNameAggregateFactory>().SingleInstance();

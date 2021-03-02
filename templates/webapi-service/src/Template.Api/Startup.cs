@@ -10,6 +10,10 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using Serilog;
+    using Template.Domain.Aggregates.AggregateName;
+    using Template.Infrastructure.AggregateRepositories.AggregateName;
+    using Template.Infrastructure.Database;
+    using Template.Infrastructure.Queries;
 
     public class Startup
     {
@@ -44,7 +48,12 @@
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            var databaseOptions = Configuration.GetSection("Database").Get<DatabaseOptions>();
+            builder.RegisterInstance(databaseOptions).As<IDatabaseOptions>().AsSelf().SingleInstance();
+            builder.RegisterType<ConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
 
+            builder.RegisterType<GetAllAggregateNamesQuery>().As<IGetAllAggregateNamesQuery>().SingleInstance();
+            builder.RegisterType<GetAggregateNameByIdQuery>().As<IGetAggregateNameByIdQuery>().SingleInstance();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

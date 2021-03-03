@@ -1,21 +1,21 @@
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
-using Xunit;
-using Template.Contracts.Responses;
-
-namespace Template.Api.Tests.Integration
+namespace Template.Api.Tests.Integration.Controllers
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using FluentAssertions;
+    using Microsoft.AspNetCore.Mvc.Testing;
+    using Newtonsoft.Json;
+    using Template.Contracts.Responses;
+    using Xunit;
+
     public class AggregateNameControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private WebApplicationFactory<Startup> _factory;
+        private readonly WebApplicationFactory<Startup> factory;
 
         public AggregateNameControllerTests(WebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
+            this.factory = factory;
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace Template.Api.Tests.Integration
         {
             // Arrange
             var id = Guid.NewGuid();
-            var client = _factory.CreateClient();
+            var client = factory.CreateClient();
 
             // Act
             var response = await client.GetAsync($"api/aggregatename/{id}");

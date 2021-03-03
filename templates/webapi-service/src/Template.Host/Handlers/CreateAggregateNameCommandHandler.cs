@@ -20,9 +20,14 @@
 
         public async Task Handle(CreateAggregateName command, IMessageHandlerContext context)
         {
-            if (command == null || command.Id == Guid.Empty)
+            if (command == null)
             {
-                throw new ArgumentException(nameof(command));
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            if (command.Id == Guid.Empty)
+            {
+                throw new ArgumentException("Guid value cannot be default", nameof(command.Id));
             }
 
             try

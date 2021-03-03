@@ -1,7 +1,6 @@
 ﻿namespace Template.Infrastructure.Tests.Integration.Queries
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using AutoFixture.Xunit2;
     using FluentAssertions;
@@ -11,19 +10,19 @@
     using Xunit;
 
     [Collection("DatabaseCollection")]
-    public class GetAllAggregateNamesQueryTests : IAsyncLifetime
+    public class GetAggregateNameByIdQueryTests : IAsyncLifetime
     {
         private readonly DatabaseHelper<Guid, AggregateNameAggregateState> aggregateNameDatabaseHelper;
 
-        private readonly GetAllAggregateNamesQuery sut;
+        private readonly GetAggregateNameByIdQuery sut;
 
-        public GetAllAggregateNamesQueryTests(DatabaseFixture databaseFixture)
+        public GetAggregateNameByIdQueryTests(DatabaseFixture databaseFixture)
         {
             var connectionStringProvider = databaseFixture.ConnectionStringProvider;
 
             aggregateNameDatabaseHelper = new DatabaseHelper<Guid, AggregateNameAggregateState>("AggregateName", connectionStringProvider.TemplateConnectionString, x => x.Id);
 
-            this.sut = new GetAllAggregateNamesQuery(connectionStringProvider);
+            this.sut = new GetAggregateNameByIdQuery(connectionStringProvider);
         }
 
         public Task InitializeAsync() => Task.CompletedTask;
@@ -33,28 +32,33 @@
             await aggregateNameDatabaseHelper.CleanTableAsync();
         }
 
-        [Fact(Skip = "TestContainers need updating")]
-        public async Task ExecuteAsync_GivenNoRecords_ShouldReturnEmptyCollection()
+        [Theory(Skip = "TestContainers need updating")]
+        [AutoData]
+        public async Task ExecuteAsync_GivenNoRecordExists_ShouldReturnNull(Guid id)
         {
             // Arrange
-            var result = await this.sut.ExecuteAsync();
+            var result = await this.sut.ExecuteAsync(id);
 
             // Assert
-            result.Should().BeEmpty();
+            result.Should().BeNull();
         }
 
         [Theory(Skip = "TestContainers need updating")]
         [AutoData]
-        public async Task ExecuteAsync_GivenRecordsExist_ShouldReturnRecords(List<AggregateNameAggregateState> states)
+        public async Task ExecuteAsync_GivenRecordExists_ShouldReturnAggregateName(AggregateNameAggregateState state)
         {
             // Arrange
-            await this.aggregateNameDatabaseHelper.AddRecordsAsync(states);
+            await this.aggregateNameDatabaseHelper.AddRecordAsync(state);
 
             // Act
-            var result = await this.sut.ExecuteAsync();
+            var result = await this.sut.ExecuteAsync(state.Id);
 
             // Assert
-            result.Should().BeEquivalentTo(states);
+            result.Should().BeEquivalentTo(
+                state,
+                x => x
+                    .Excluding(p => p.CreatedOn)
+                    .Excluding(p => p.UpdatedOn));
         }
     }
 }

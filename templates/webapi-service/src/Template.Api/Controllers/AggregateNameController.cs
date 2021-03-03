@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Template.Contracts.Requests;
-using Template.Contracts.Responses;
-
-namespace Template.Api.Controllers
+﻿namespace Template.Api.Controllers
 {
+    using System;
+    using Microsoft.AspNetCore.Mvc;
     using NServiceBus;
     using System.Threading.Tasks;
     using Template.Contracts.Messages.Commands;
+    using Template.Contracts.Requests;
     using Template.Infrastructure.Messages.Responses;
     using Template.Infrastructure.Queries;
 
@@ -39,6 +36,11 @@ namespace Template.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
+            if (id == default)
+            {
+                throw new ArgumentException("Guid value cannot be default", nameof(id));
+            }
+
             var result = await getAggregateNameByIdQuery.ExecuteAsync(id);
             return result == null ? (ActionResult)NotFound() : Ok(result);
         }

@@ -76,7 +76,7 @@
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("swagger/v1/swagger.json", "Delivery Service");
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "Template Service");
 
                 // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
                 c.RoutePrefix = string.Empty;

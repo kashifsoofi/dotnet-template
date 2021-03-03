@@ -23,7 +23,7 @@
         {
             await using var connection = new MySqlConnection(this.connectionStringProvider.TemplateConnectionString);
             return await connection.QueryAsync<AggregateName>(
-                this.sqlHelper.GetSqlFromEmbeddedResource("GetAllDeliveries"),
+                this.sqlHelper.GetSqlFromEmbeddedResource("GetAllAggregateNames"),
                 commandType: CommandType.Text);
         }
     }

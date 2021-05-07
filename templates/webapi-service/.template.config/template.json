@@ -69,11 +69,15 @@
       "modifiers": [
         {
           "condition": "(!includeHost)",
-          "exclude": ["src/Template.Host/**/*"]
+          "exclude": [ "src/Template.Host/**/*" ]
+        },
+        {
+          "condition": "(includeHost)",
+          "exclude": [ "src/Template.Api/Handlers/*CommandHandler.cs" ]
         },
         {
           "condition": "(!includeDb)",
-          "exclude": ["db/**/*"]
+          "exclude": [ "db/**/*" ]
         }
       ]
     }

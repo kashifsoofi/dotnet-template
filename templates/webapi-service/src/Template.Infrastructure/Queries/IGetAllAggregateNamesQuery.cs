@@ -1,4 +1,4 @@
-﻿namespace Template.Infrastructure.AggregateName
+﻿namespace Template.Infrastructure.Queries
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -6,6 +6,6 @@
 
     public interface IGetAllAggregateNamesQuery
     {
-        Task<List<AggregateName>> ExecuteAsync();
+        Task<IEnumerable<AggregateName>> ExecuteAsync();
     }
 }

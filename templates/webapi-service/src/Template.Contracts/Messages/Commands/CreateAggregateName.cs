@@ -4,11 +4,9 @@
 
     public class CreateAggregateName
     {
-        public int Id { get; }
-        public DateTime CreatedOn { get; }
-        public DateTime UpdatedOn { get; }
+        public Guid Id { get; set; }
 
-        public CreateAggregateName(int id)
+        public CreateAggregateName(Guid id)
         {
             Id = id;
         }

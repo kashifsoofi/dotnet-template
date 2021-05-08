@@ -1,6 +1,6 @@
 ﻿namespace Template.Infrastructure.Database
 {
-    public class DatabaseOptions
+    public class DatabaseOptions : IDatabaseOptions
     {
         public string Server { get; set; }
         public int? Port { get; set; }

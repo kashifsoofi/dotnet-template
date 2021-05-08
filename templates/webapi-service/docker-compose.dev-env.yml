@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  template.db:
+    image: mysql:5.7
+    ports:
+      - "33060:3306"
+    volumes:
+      - templateappdbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=defaultdb
+      - MYSQL_ROOT_PASSWORD=Password123
+  
+  template.db.migrations:
+    depends_on:
+      - template.db
+    image: template.db.migrations
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+    command: -cs "server=template.db;database=defaultdb;uid=root;password=Password123;SslMode=None;"
+
+volumes:
+  templateappdbdata:
+  

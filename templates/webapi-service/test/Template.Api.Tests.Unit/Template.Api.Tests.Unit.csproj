@@ -1,38 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture.Xunit2" Version="4.15.0" />
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="NServiceBus.Testing" Version="7.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Template.WebApi.Tests.Acceptance\obj\Debug\netcoreapp2.2\Template.WebApi.Tests.Acceptance.assets.cache" />
-    <None Remove="Template.WebApi.Tests.Acceptance\obj\Template.WebApi.Tests.Acceptance.csproj.nuget.dgspec.json" />
-    <None Remove="Template.WebApi.Tests.Acceptance\obj\Template.WebApi.Tests.Acceptance.csproj.nuget.g.props" />
-    <None Remove="Template.WebApi.Tests.Acceptance\obj\Template.WebApi.Tests.Acceptance.csproj.nuget.g.targets" />
-    <None Remove="Template.WebApi.Tests.Acceptance\obj\Template.WebApi.Tests.Acceptance.csproj.nuget.cache" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Template.WebApi.Tests.Acceptance\UnitTest1.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Template.Api\Template.Api.csproj" />
-    <ProjectReference Include="..\..\src\Template.Contracts\Template.Contracts.csproj" />
-  </ItemGroup>
 </Project>

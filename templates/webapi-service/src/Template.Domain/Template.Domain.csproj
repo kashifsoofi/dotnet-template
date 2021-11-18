@@ -1,14 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <IsPackable>true</IsPackable>
-    <PackageId>Template.Domain</PackageId>
-    <Authors>Kashif Soofi</Authors>
-    <Description>Template Domain</Description>
-    <Version>$(Version)</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Template.Contracts\Template.Contracts.csproj" />
   </ItemGroup>
+
 </Project>

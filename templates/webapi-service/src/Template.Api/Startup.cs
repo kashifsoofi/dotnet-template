@@ -1,17 +1,14 @@
 ﻿namespace Template.Api
 {
-    using System.Text.Json.Serialization;
     using Autofac;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using Serilog;
-    using Template.Domain.Aggregates.AggregateName;
-    using Template.Infrastructure.AggregateRepositories.AggregateName;
+    using System.Text.Json.Serialization;
     using Template.Infrastructure.Database;
     using Template.Infrastructure.Queries;
 
@@ -31,8 +28,7 @@
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                });
             services.AddControllers();
 
             services.AddSwaggerGen(c =>

@@ -54,7 +54,7 @@ namespace Template.Api.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void Get_GivenADefaultGuid_ShouldThrowException()
+        public async Task Get_GivenADefaultGuid_ShouldThrowException()
         {
             // Arrange
             var testValue = Guid.Empty;
@@ -64,7 +64,7 @@ namespace Template.Api.Tests.Unit.Controllers
             Func<Task> func = async () => await sut.Get(testValue);
 
             // Act & Assert
-            var exception = func.Should().Throw<ArgumentException>();
+            var exception = await func.Should().ThrowAsync<ArgumentException>();
             exception.And.Message.Should().Contain(defaultMessage);
             exception.Which.ParamName.Should().Be(parameterName);
         }

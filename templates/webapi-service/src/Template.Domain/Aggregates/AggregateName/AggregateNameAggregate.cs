@@ -43,6 +43,6 @@
             throw new NotImplementedException();
         }
 
-        public List<IAggregateEvent> UncommittedEvents { get; set; }
+        public List<IAggregateEvent> UncommittedEvents { get; set; } = new List<IAggregateEvent> { };
     }
 }

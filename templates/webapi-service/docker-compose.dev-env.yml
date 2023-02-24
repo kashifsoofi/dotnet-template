@@ -1,5 +1,10 @@
 version: '3.7'
 
+networks:
+  default:
+  localstack-net:
+    external: true
+    
 services:
   template.db:
     image: mysql:5.7
@@ -19,6 +24,15 @@ services:
       context: ./db/
       dockerfile: Dockerfile
     command: -cs "server=template.db;database=defaultdb;uid=root;password=Password123;SslMode=None;"
+
+  localstack-setup:
+    build:
+      context: ./localstack-setup
+    networks:
+      - localstack-net
+    environment:
+      - "AWS_SECRET_ACCESS_KEY=DUMMY_KEY"
+      - "AWS_ACCESS_KEY_ID=DUMMY_KEY"
 
 volumes:
   templateappdbdata:

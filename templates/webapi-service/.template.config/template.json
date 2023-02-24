@@ -54,6 +54,11 @@
       "datatype": "bool",
       "defaultValue": "true"
     },
+    "withLocalStack": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
     "createdDate": {
       "type": "generated",
       "generator": "now",
@@ -78,6 +83,10 @@
         {
           "condition": "(!includeDb)",
           "exclude": [ "db/**/*" ]
+        },
+        {
+          "condition": "(!withLocalStack)",
+          "exclude": [ "localstack-setup/**/*", "docker-compose.localstack.yml" ]
         }
       ]
     }

@@ -1,10 +1,17 @@
-﻿using Autofac;
+﻿using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.SimpleNotificationService;
+using Amazon.SQS;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NServiceBus;
 using Serilog;
 using Serilog.Events;
 using Template.Host;
+using Template.Infrastructure.Configuration;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -13,8 +20,18 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("Template.Host.log", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
+IConfiguration configuration = new ConfigurationBuilder()
+              .AddJsonFile("appsettings.json", true, true)
+              .AddEnvironmentVariables()
+              .Build();
+
 var host = CreateHostBuilder(args)
     .UseSerilog()
+    .ConfigureServices((hostBuilderContext, services) =>
+    {
+        services.AddOptions();
+        services.Configure<NServiceBusOptions>(configuration.GetSection("NServiceBus"));
+    })
     .ConfigureContainer((HostBuilderContext hostBuilderContext, ContainerBuilder builder) =>
     {
         var startup = new Startup(hostBuilderContext.Configuration);
@@ -22,25 +39,54 @@ var host = CreateHostBuilder(args)
     })
     .UseNServiceBus(context =>
     {
+        var nServiceBusOptions = configuration.GetSection("NServiceBus").Get<NServiceBusOptions>();
+
         var endpointConfiguration = new EndpointConfiguration("Template.Host");
+        endpointConfiguration.DoNotCreateQueues();
 
-        var conventions = endpointConfiguration.Conventions();
-        conventions.DefiningCommandsAs(type => type.Namespace == "Template.Contracts.Messages.Commands");
-        conventions.DefiningEventsAs(type => type.Namespace == "Template.Contracts.Messages.Events");
-        conventions.DefiningMessagesAs(type => type.Namespace == "Template.Infrastructure.Messages.Responses");
+        var amazonSqsConfig = new AmazonSQSConfig();
+        if (!string.IsNullOrEmpty(nServiceBusOptions.SqsServiceUrlOverride))
+        {
+            amazonSqsConfig.ServiceURL = nServiceBusOptions.SqsServiceUrlOverride;
+        }
 
-        endpointConfiguration.UsePersistence<LearningPersistence>();
-        var transport = endpointConfiguration.UseTransport<LearningTransport>();
+        var transport = endpointConfiguration.UseTransport<SqsTransport>();
+        transport.ClientFactory(() => new AmazonSQSClient(
+            new AnonymousAWSCredentials(),
+            amazonSqsConfig));
 
-        var routing = transport.Routing();
+        var amazonSimpleNotificationServiceConfig = new AmazonSimpleNotificationServiceConfig();
+        if (!string.IsNullOrEmpty(nServiceBusOptions.SnsServiceUrlOverride))
+        {
+            amazonSimpleNotificationServiceConfig.ServiceURL = nServiceBusOptions.SnsServiceUrlOverride;
+        }
 
-        endpointConfiguration.Recoverability()
-            .Delayed(x => x.NumberOfRetries(0))
-            .Immediate(x => x.NumberOfRetries(0));
+        transport.ClientFactory(() => new AmazonSimpleNotificationServiceClient(
+            new AnonymousAWSCredentials(),
+            amazonSimpleNotificationServiceConfig));
+
+        var amazonS3Config = new AmazonS3Config
+        {
+            ForcePathStyle = true,
+        };
+        if (!string.IsNullOrEmpty(nServiceBusOptions.S3ServiceUrlOverride))
+        {
+            amazonS3Config.ServiceURL = nServiceBusOptions.S3ServiceUrlOverride;
+        }
+
+        var s3Configuration = transport.S3("bucketname", "template-host");
+        s3Configuration.ClientFactory(() => new AmazonS3Client(
+            new AnonymousAWSCredentials(),
+            amazonS3Config));
+
+        endpointConfiguration.SendFailedMessagesTo("error");
+        endpointConfiguration.EnableInstallers();
 
         return endpointConfiguration;
     })
     .UseConsoleLifetime();
+
+await host.RunConsoleAsync();
 
 static IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args)

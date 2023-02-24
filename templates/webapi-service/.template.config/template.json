@@ -42,7 +42,7 @@
         "source": "aggregateName",
         "toLower": true
       },
-      "replaces": "aggregateName"
+      "replaces": "aggreatename"
     },
     "includeHost": {
       "type": "parameter",

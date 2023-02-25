@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using Amazon;
+using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.SimpleNotificationService;
 using Amazon.SQS;
@@ -44,7 +45,10 @@ var host = CreateHostBuilder(args)
         var endpointConfiguration = new EndpointConfiguration("Template.Host");
         endpointConfiguration.DoNotCreateQueues();
 
+        var regionEndpoint = RegionEndpoint.GetBySystemName("eu-west-1");
+
         var amazonSqsConfig = new AmazonSQSConfig();
+        amazonSqsConfig.RegionEndpoint = regionEndpoint;
         if (!string.IsNullOrEmpty(nServiceBusOptions.SqsServiceUrlOverride))
         {
             amazonSqsConfig.ServiceURL = nServiceBusOptions.SqsServiceUrlOverride;
@@ -56,6 +60,7 @@ var host = CreateHostBuilder(args)
             amazonSqsConfig));
 
         var amazonSimpleNotificationServiceConfig = new AmazonSimpleNotificationServiceConfig();
+        amazonSimpleNotificationServiceConfig.RegionEndpoint = regionEndpoint;
         if (!string.IsNullOrEmpty(nServiceBusOptions.SnsServiceUrlOverride))
         {
             amazonSimpleNotificationServiceConfig.ServiceURL = nServiceBusOptions.SnsServiceUrlOverride;
@@ -74,7 +79,7 @@ var host = CreateHostBuilder(args)
             amazonS3Config.ServiceURL = nServiceBusOptions.S3ServiceUrlOverride;
         }
 
-        var s3Configuration = transport.S3("bucketname", "template-host");
+        var s3Configuration = transport.S3("Template", "api");
         s3Configuration.ClientFactory(() => new AmazonS3Client(
             new AnonymousAWSCredentials(),
             amazonS3Config));

@@ -56,11 +56,6 @@ namespace Template.Api.Services
             var endpointConfiguration = new EndpointConfiguration("Template.Api");
             endpointConfiguration.DoNotCreateQueues();
 
-            var conventions = endpointConfiguration.Conventions();
-            conventions.DefiningCommandsAs(type => type.Namespace == "Template.Contracts.Messages.Commands");
-            conventions.DefiningEventsAs(type => type.Namespace == "Template.Contracts.Messages.Events");
-            conventions.DefiningMessagesAs(type => type.Namespace == "Template.Infrastructure.Messages.Responses");
-
             var amazonSqsConfig = new AmazonSQSConfig();
             if (!string.IsNullOrEmpty(nServiceBusOptions.SqsServiceUrlOverride))
             {
@@ -91,7 +86,7 @@ namespace Template.Api.Services
                 amazonS3Config.ServiceURL = nServiceBusOptions.S3ServiceUrlOverride;
             }
 
-            var s3Configuration = transport.S3("bucketname", "template-api");
+            var s3Configuration = transport.S3("Template", "Api");
             s3Configuration.ClientFactory(() => new AmazonS3Client(
                 new AnonymousAWSCredentials(),
                 amazonS3Config));
@@ -99,11 +94,11 @@ namespace Template.Api.Services
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.EnableInstallers();
 
-            //var routing = transport.Routing();
-            //routing.RouteToEndpoint(typeof(CreateAggregateNameRequest), "template-host");
-            //routing.RouteToEndpoint(typeof(CreateAggregateName), "template-host");
-            //routing.RouteToEndpoint(typeof(UpdateAggregateName), "template-host");
-            //routing.RouteToEndpoint(typeof(DeleteAggregateName), "template-host");
+            var routing = transport.Routing();
+            routing.RouteToEndpoint(typeof(CreateAggregateNameRequest), "Template-Host");
+            //routing.RouteToEndpoint(typeof(CreateAggregateName), "Template-Host");
+            //routing.RouteToEndpoint(typeof(UpdateAggregateName), "Template-Host");
+            //routing.RouteToEndpoint(typeof(DeleteAggregateName), "Template-Host");
 
             endpointConfiguration.EnableCallbacks();
             endpointConfiguration.MakeInstanceUniquelyAddressable("1");

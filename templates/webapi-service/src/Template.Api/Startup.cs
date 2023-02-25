@@ -7,10 +7,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using NServiceBus;
     using Serilog;
     using System.Text.Json.Serialization;
-    using Template.Api.Services;
     using Template.Infrastructure.Configuration;
     using Template.Infrastructure.Database;
     using Template.Infrastructure.Queries;
@@ -36,32 +34,6 @@
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
             services.AddControllers();
-
-            services.AddSingleton<NServiceBusService>();
-            services.AddSingleton<IHostedService, NServiceBusService>(
-                serviceProvider => serviceProvider.GetService<NServiceBusService>());
-            services.AddSingleton(provider =>
-            {
-                var nServiceBusService = provider.GetService<NServiceBusService>();
-                if (nServiceBusService.MessageSession != null)
-                {
-                    return nServiceBusService.MessageSession;
-                }
-
-                var timeout = TimeSpan.FromSeconds(30);
-                // SpinWait is here to accomodate for WebHost vs GenericHost difference
-                // Closure here should be fine under the assumption we always fast track above once initialized
-                if (!SpinWait.SpinUntil(() => nServiceBusService.MessageSession != null || nServiceBusService.StartupException != null,
-                    timeout))
-                {
-                    throw new TimeoutException($"Unable to resolve the message session within '{timeout}'. If you are trying to resolve the session within hosted services it is encouraged to use `Lazy<IMessageSession>` instead of `IMessageSession` directly");
-                }
-
-                nServiceBusService.StartupException?.Throw();
-
-                return nServiceBusService.MessageSession;
-            });
-            services.AddSingleton(provider => new Lazy<IMessageSession>(provider.GetService<IMessageSession>));
 
             services.AddSwaggerGen(c =>
             {

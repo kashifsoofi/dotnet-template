@@ -45,6 +45,11 @@ var host = CreateHostBuilder(args)
         var endpointConfiguration = new EndpointConfiguration("Template.Host");
         endpointConfiguration.DoNotCreateQueues();
 
+        var conventions = endpointConfiguration.Conventions();
+        // conventions.DefiningCommandsAs(type => type.Namespace == "Template.Contracts.Messages.Commands");
+        // conventions.DefiningEventsAs(type => type.Namespace == "Template.Contracts.Messages.Events");
+        conventions.DefiningMessagesAs(type => type.Namespace == "Template.Infrastructure.Messages.Responses");
+
         var regionEndpoint = RegionEndpoint.GetBySystemName("eu-west-1");
 
         var amazonSqsConfig = new AmazonSQSConfig();
@@ -79,13 +84,17 @@ var host = CreateHostBuilder(args)
             amazonS3Config.ServiceURL = nServiceBusOptions.S3ServiceUrlOverride;
         }
 
-        var s3Configuration = transport.S3("Template", "api");
+        var s3Configuration = transport.S3("template", "api");
         s3Configuration.ClientFactory(() => new AmazonS3Client(
             new AnonymousAWSCredentials(),
             amazonS3Config));
 
         endpointConfiguration.SendFailedMessagesTo("error");
         endpointConfiguration.EnableInstallers();
+
+        endpointConfiguration.Recoverability()
+            .Delayed(x => x.NumberOfRetries(0))
+            .Immediate(x => x.NumberOfRetries(0));
 
         return endpointConfiguration;
     })

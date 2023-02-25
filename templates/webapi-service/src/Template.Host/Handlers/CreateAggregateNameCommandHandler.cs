@@ -6,6 +6,7 @@
     using NServiceBus;
     using Template.Contracts.Messages.Commands;
     using Template.Domain.Aggregates.AggregateName;
+    using Template.Infrastructure.Messages.Responses;
 
     public class CreateAggregateNameCommandHandler : IHandleMessages<CreateAggregateName>
     {
@@ -36,11 +37,12 @@
                 aggregate.Create(command);
 
                 await PersistAndPublishAsync(aggregate, context);
+                await context.Reply(new RequestResponse(true)).ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                await context.Reply(new RequestResponse(e)).ConfigureAwait(false);
             }
         }
 

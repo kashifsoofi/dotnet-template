@@ -12,5 +12,5 @@ aws --region eu-west-1 --endpoint-url=http://localstack:4566 sqs create-queue --
 aws --region eu-west-1 --endpoint-url=http://localstack:4566 sqs create-queue --queue-name Template-Api-1
 aws --region eu-west-1 --endpoint-url=http://localstack:4566 sqs create-queue --queue-name Template-Host
 aws --region eu-west-1 --endpoint-url=http://localstack:4566 sqs create-queue --queue-name error
-aws --region eu-west-1 --endpoint-url=http://localstack:4566 s3api create-bucket --bucket Template
-aws --region eu-west-1 --endpoint-url=http://localstack:4566 s3api put-bucket-acl --bucket Template --acl public-read
+aws --region eu-west-1 --endpoint-url=http://localstack:4566 s3api create-bucket --bucket template
+aws --region eu-west-1 --endpoint-url=http://localstack:4566 s3api put-bucket-acl --bucket template --acl public-read
